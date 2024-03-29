@@ -1,6 +1,16 @@
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
-import { VDataTable, VLayout, VMain, VAppBar, VCol, VRow, VContainer } from 'vuetify/components';
+import {
+  VDataTable,
+  VLayout,
+  VMain,
+  VAppBar,
+  VBtn,
+  VCol,
+  VRow,
+  VContainer,
+  VSpacer
+} from 'vuetify/components';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
 
 const components = {
@@ -8,9 +18,11 @@ const components = {
   VLayout,
   VMain,
   VAppBar,
+  VBtn,
   VCol,
   VRow,
-  VContainer
+  VContainer,
+  VSpacer
 };
 
 export const vuetify = createVuetify({
