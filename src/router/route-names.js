@@ -1,3 +1,4 @@
 export const routeNames = {
-  ROOT: 'root'
+  ROOT: 'root',
+  PLANET_LIST: 'planet-list'
 };

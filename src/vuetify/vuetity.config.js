@@ -1,11 +1,28 @@
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
-import { VDataTable } from 'vuetify/components';
+import { VDataTable, VLayout, VMain, VAppBar, VCol, VRow, VContainer } from 'vuetify/components';
+import { aliases, mdi } from 'vuetify/iconsets/mdi';
 
 const components = {
-  VDataTable
+  VDataTable,
+  VLayout,
+  VMain,
+  VAppBar,
+  VCol,
+  VRow,
+  VContainer
 };
 
 export const vuetify = createVuetify({
-  components
+  components,
+  theme: {
+    defaultTheme: 'dark'
+  },
+  icons: {
+    defaultSet: 'mdi',
+    aliases,
+    sets: {
+      mdi
+    }
+  }
 });
