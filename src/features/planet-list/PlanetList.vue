@@ -6,6 +6,13 @@
     <v-text-field v-model="searchValue" placeholder="Search" append-inner-icon="mdi-magnify" />
   </v-col>
   <v-col :cols="12">
+    <v-alert
+      v-if="isError"
+      type="error"
+      text="Something went wrong. Please refresh the page or try again later."
+      closable
+      class="mb-4"
+    />
     <v-data-table
       :items="planets"
       :headers="headers"
@@ -38,7 +45,7 @@ import PlanetListPagination from './components/planet-list-pagination/PlanetList
 const page = ref(1);
 const searchValue = ref('');
 
-const { planets, isFetching, totalCount, hasNextPage } = usePlanets(page);
+const { planets, isFetching, totalCount, hasNextPage, isError } = usePlanets(page);
 
 const UNKNOWN_VAL = 'unknown';
 

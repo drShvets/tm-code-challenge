@@ -1,6 +1,6 @@
 import PlanetList from './PlanetList.vue';
 import { mount, flushPromises } from '@vue/test-utils';
-import { VDataTable, VTextField } from 'vuetify/components';
+import { VDataTable, VTextField, VAlert } from 'vuetify/components';
 import { vuetify } from '@/vuetify/vuetity.config';
 import { VueQueryPlugin } from '@tanstack/vue-query';
 import { apiClient } from '@/services/apiClient';
@@ -8,12 +8,16 @@ import MockAdapter from 'axios-mock-adapter';
 import { planetsEndpoints } from './constants/endpoints';
 import * as planets from '@/fixtures/planet-list.fixture.json';
 import { expect } from 'vitest';
+import { beforeEach } from 'vitest';
 
-const mock = new MockAdapter(apiClient);
-mock.onGet(planetsEndpoints.PLANET_LIST, { params: { page: 1 } }).reply(200, planets);
+const serverMock = new MockAdapter(apiClient);
 
 describe('PlanetList', () => {
   let wrapper;
+
+  beforeEach(() => {
+    serverMock.resetHandlers();
+  });
 
   const createComponent = (props = {}) => {
     wrapper = mount(PlanetList, {
@@ -28,8 +32,10 @@ describe('PlanetList', () => {
 
   const findDataTable = () => wrapper.findComponent(VDataTable);
   const findTextField = () => wrapper.findComponent(VTextField);
+  const findAlert = () => wrapper.findComponent(VAlert);
 
   it('properly passes planet list to "v-data-table"', async () => {
+    serverMock.onGet(planetsEndpoints.PLANET_LIST, { params: { page: 1 } }).reply(200, planets);
     createComponent();
 
     const items = [
@@ -68,6 +74,7 @@ describe('PlanetList', () => {
   });
 
   it('properly passes "loading" prop to "v-data-table"', async () => {
+    serverMock.onGet(planetsEndpoints.PLANET_LIST, { params: { page: 1 } }).reply(200, planets);
     createComponent();
     expect(findDataTable().props('loading')).toBe(true);
 
@@ -84,5 +91,14 @@ describe('PlanetList', () => {
     await wrapper.vm.$nextTick();
 
     expect(findDataTable().props('search')).toBe('Tatooine');
+  });
+
+  it('shows error message when API call fails', async () => {
+    serverMock.onGet(planetsEndpoints.PLANET_LIST, { params: { page: 1 } }).networkError();
+    createComponent();
+    expect(findAlert().exists()).toBe(false);
+    await flushPromises();
+
+    expect(findAlert().exists()).toBe(true);
   });
 });
