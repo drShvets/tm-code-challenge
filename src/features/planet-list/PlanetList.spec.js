@@ -1,6 +1,6 @@
 import PlanetList from './PlanetList.vue';
-import { shallowMount, flushPromises } from '@vue/test-utils';
-import { VDataTable } from 'vuetify/lib/components/index.mjs';
+import { mount, flushPromises } from '@vue/test-utils';
+import { VDataTable, VTextField } from 'vuetify/components';
 import { vuetify } from '@/vuetify/vuetity.config';
 import { VueQueryPlugin } from '@tanstack/vue-query';
 import { apiClient } from '@/services/apiClient';
@@ -16,7 +16,7 @@ describe('PlanetList', () => {
   let wrapper;
 
   const createComponent = (props = {}) => {
-    wrapper = shallowMount(PlanetList, {
+    wrapper = mount(PlanetList, {
       props: {
         ...props
       },
@@ -27,6 +27,7 @@ describe('PlanetList', () => {
   };
 
   const findDataTable = () => wrapper.findComponent(VDataTable);
+  const findTextField = () => wrapper.findComponent(VTextField);
 
   it('properly passes planet list to "v-data-table"', async () => {
     createComponent();
@@ -73,5 +74,15 @@ describe('PlanetList', () => {
     await flushPromises();
 
     expect(findDataTable().props('loading')).toBe(false);
+  });
+
+  it('properly passes "search" prop to "v-data-table"', async () => {
+    createComponent();
+
+    findTextField().setValue('Tatooine');
+
+    await wrapper.vm.$nextTick();
+
+    expect(findDataTable().props('search')).toBe('Tatooine');
   });
 });

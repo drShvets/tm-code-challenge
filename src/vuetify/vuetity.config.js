@@ -9,7 +9,8 @@ import {
   VCol,
   VRow,
   VContainer,
-  VSpacer
+  VSpacer,
+  VTextField
 } from 'vuetify/components';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
 
@@ -22,7 +23,8 @@ const components = {
   VCol,
   VRow,
   VContainer,
-  VSpacer
+  VSpacer,
+  VTextField
 };
 
 export const vuetify = createVuetify({

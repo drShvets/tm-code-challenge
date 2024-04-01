@@ -1,21 +1,30 @@
 <template>
-  <v-data-table
-    :items="planets"
-    :headers="headers"
-    :loading="isFetching"
-    :items-length="totalCount"
-    class="w-100"
-  >
-    <template #item.created="{ value }">
-      {{ formatDate(value) }}
-    </template>
-    <template #item.population="{ value }">
-      {{ formatPopulation(value) }}
-    </template>
-    <template #bottom>
-      <planet-list-pagination v-model="page" :has-next-page="hasNextPage" />
-    </template>
-  </v-data-table>
+  <v-col :cols="12" :md="4">
+    <h1>Planet List</h1>
+  </v-col>
+  <v-col :cols="12" :md="4" :offset-md="4">
+    <v-text-field v-model="searchValue" placeholder="Search" append-inner-icon="mdi-magnify" />
+  </v-col>
+  <v-col :cols="12">
+    <v-data-table
+      :items="planets"
+      :headers="headers"
+      :loading="isFetching"
+      :items-length="totalCount"
+      :search="searchValue"
+      class="w-100"
+    >
+      <template #item.created="{ value }">
+        {{ formatDate(value) }}
+      </template>
+      <template #item.population="{ value }">
+        {{ formatPopulation(value) }}
+      </template>
+      <template #bottom>
+        <planet-list-pagination v-model="page" :has-next-page="hasNextPage" />
+      </template>
+    </v-data-table>
+  </v-col>
 </template>
 
 <script setup>
@@ -27,6 +36,7 @@ import { dateCompare, numberCompare } from './helpers/sort';
 import PlanetListPagination from './components/planet-list-pagination/PlanetListPagination.vue';
 
 const page = ref(1);
+const searchValue = ref('');
 
 const { planets, isFetching, totalCount, hasNextPage } = usePlanets(page);
 
@@ -40,17 +50,20 @@ const formatPopulation = (value) => {
 const headers = ref([
   {
     title: 'Name',
-    key: 'name'
+    key: 'name',
+    width: 200
   },
   {
     title: 'Population',
     key: 'population',
-    sort: numberCompare
+    sort: numberCompare,
+    width: 100
   },
   {
     title: 'Rotation Period',
     key: 'rotationPeriod',
-    sort: numberCompare
+    sort: numberCompare,
+    width: 100
   },
   {
     title: 'Climate',
@@ -59,17 +72,19 @@ const headers = ref([
   {
     title: 'Gravity',
     key: 'gravity',
-    sortable: false
-  },
-  {
-    title: 'Created',
-    key: 'created',
-    sort: dateCompare
+    sortable: false,
+    width: 300
   },
   {
     title: 'URL',
     key: 'url',
     sortable: false
+  },
+  {
+    title: 'Created',
+    key: 'created',
+    sort: dateCompare,
+    width: 200
   }
 ]);
 </script>

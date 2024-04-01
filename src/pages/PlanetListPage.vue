@@ -1,8 +1,6 @@
 <template>
   <v-row>
-    <v-col cols="12">
-      <planet-list />
-    </v-col>
+    <planet-list />
   </v-row>
 </template>
 
