@@ -12,6 +12,7 @@ const fetchPlanets = async (query) => {
       results: mapPlanets(planets)
     };
   } catch (error) {
+    console.log('error', error);
     return error;
   }
 };
