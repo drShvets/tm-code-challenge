@@ -13,23 +13,7 @@
       {{ formatNumber(value) }}
     </template>
     <template #bottom>
-      <div class="d-flex pa-3">
-        <v-spacer />
-        <v-btn
-          class="mx-2"
-          icon="mdi-chevron-left"
-          color="primary"
-          :disabled="!hasPreviousPage"
-          @click="previousPage"
-        />
-        <v-btn
-          class="mx-2"
-          icon="mdi-chevron-right"
-          color="primary"
-          :disabled="!hasNextPage"
-          @click="nextPage"
-        />
-      </div>
+      <planet-list-pagination v-model="page" :has-next-page="hasNextPage" />
     </template>
   </v-data-table>
 </template>
@@ -39,22 +23,16 @@ import { ref } from 'vue';
 import { usePlanets } from './composables/usePlanets';
 import { formatDate } from '@/helpers/date';
 import { dateCompare, numberCompare } from './helpers/sort';
+import PlanetListPagination from './components/planet-list-pagination/PlanetListPagination.vue';
 
 const page = ref(1);
 
-const nextPage = () => {
-  page.value += 1;
-};
-const previousPage = () => {
-  page.value -= 1;
-};
-
-const { planets, isFetching, totalCount, hasNextPage, hasPreviousPage } = usePlanets(page);
+const { planets, isFetching, totalCount, hasNextPage } = usePlanets(page);
 
 const UNKNOWN_VAL = 'unknown';
 
 const formatNumber = (value) => {
-  if (value === 'unknown') return value;
+  if (value === UNKNOWN_VAL) return value;
   const formatter = new Intl.NumberFormat('en', { notation: 'compact' });
   return formatter.format(Number(value));
 };

@@ -22,16 +22,12 @@ export const usePlanets = (page) => {
   const hasNextPage = computed(() => {
     return Boolean(data.value.next);
   });
-  const hasPreviousPage = computed(() => {
-    return Boolean(data.value.previous);
-  });
 
   return {
     isFetching,
     isError,
     planets,
     totalCount,
-    hasNextPage,
-    hasPreviousPage
+    hasNextPage
   };
 };
