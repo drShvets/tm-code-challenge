@@ -1,14 +1,11 @@
 # tm-code-challenge
 
-This template should help get you started developing with Vue 3 in Vite.
+## System requirements
 
-## Recommended IDE Setup
+> recomended way to install node is to use [asdf](https://asdf-vm.com/guide/getting-started.html)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- nodejs 20.3.0
+- pnpm 8.6.2+
 
 ## Project Setup
 
