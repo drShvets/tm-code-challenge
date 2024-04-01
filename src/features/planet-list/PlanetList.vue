@@ -10,7 +10,7 @@
       {{ formatDate(value) }}
     </template>
     <template #item.population="{ value }">
-      {{ formatNumber(value) }}
+      {{ formatPopulation(value) }}
     </template>
     <template #bottom>
       <planet-list-pagination v-model="page" :has-next-page="hasNextPage" />
@@ -22,6 +22,7 @@
 import { ref } from 'vue';
 import { usePlanets } from './composables/usePlanets';
 import { formatDate } from '@/helpers/date';
+import { formatNumber } from '@/helpers/numbers';
 import { dateCompare, numberCompare } from './helpers/sort';
 import PlanetListPagination from './components/planet-list-pagination/PlanetListPagination.vue';
 
@@ -31,10 +32,9 @@ const { planets, isFetching, totalCount, hasNextPage } = usePlanets(page);
 
 const UNKNOWN_VAL = 'unknown';
 
-const formatNumber = (value) => {
+const formatPopulation = (value) => {
   if (value === UNKNOWN_VAL) return value;
-  const formatter = new Intl.NumberFormat('en', { notation: 'compact' });
-  return formatter.format(Number(value));
+  return formatNumber(Number(value), { notation: 'compact' });
 };
 
 const headers = ref([
