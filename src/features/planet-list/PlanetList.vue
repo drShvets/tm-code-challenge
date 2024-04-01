@@ -6,6 +6,12 @@
     :items-length="totalCount"
     class="w-100"
   >
+    <template #item.created="{ value }">
+      {{ formatDate(value) }}
+    </template>
+    <template #item.population="{ value }">
+      {{ formatNumber(value) }}
+    </template>
     <template #bottom>
       <div class="d-flex pa-3">
         <v-spacer />
@@ -31,6 +37,8 @@
 <script setup>
 import { ref } from 'vue';
 import { usePlanets } from './composables/usePlanets';
+import { formatDate } from '@/helpers/date';
+import { dateCompare, numberCompare } from './helpers/sort';
 
 const page = ref(1);
 
@@ -43,6 +51,14 @@ const previousPage = () => {
 
 const { planets, isFetching, totalCount, hasNextPage, hasPreviousPage } = usePlanets(page);
 
+const UNKNOWN_VAL = 'unknown';
+
+const formatNumber = (value) => {
+  if (value === 'unknown') return value;
+  const formatter = new Intl.NumberFormat('en', { notation: 'compact' });
+  return formatter.format(Number(value));
+};
+
 const headers = ref([
   {
     title: 'Name',
@@ -50,11 +66,13 @@ const headers = ref([
   },
   {
     title: 'Population',
-    key: 'population'
+    key: 'population',
+    sort: numberCompare
   },
   {
     title: 'Rotation Period',
-    key: 'rotationPeriod'
+    key: 'rotationPeriod',
+    sort: numberCompare
   },
   {
     title: 'Climate',
@@ -62,15 +80,18 @@ const headers = ref([
   },
   {
     title: 'Gravity',
-    key: 'gravity'
+    key: 'gravity',
+    sortable: false
   },
   {
     title: 'Created',
-    key: 'created'
+    key: 'created',
+    sort: dateCompare
   },
   {
     title: 'URL',
-    key: 'url'
+    key: 'url',
+    sortable: false
   }
 ]);
 </script>
