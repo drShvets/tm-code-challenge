@@ -6,7 +6,9 @@ export const usePlanets = (page) => {
   const { isFetching, data, isError } = useQuery({
     queryKey: ['planets', page],
     queryFn: () => fetchPlanets({ page: page.value }),
-    placeholderData: () => ({ results: [], count: 0 })
+    placeholderData: () => ({ results: [], count: 0 }),
+    refetchOnWindowFocus: false,
+    staleTime: 20_0000
   });
 
   const planets = computed(() => {
